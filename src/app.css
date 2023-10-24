@@ -1,25 +1,52 @@
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.header_menu{
+    background-color: beige;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: center;
+    padding:1em;
+}
+.flex-container{
+    display: flex;
+
+    flex-direction: column;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
+.flex-btn{
+    max-width: 100%;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.preact:hover {
-  filter: drop-shadow(0 0 2em #673ab8aa);
+@media screen and (min-width:780px){
+    .header_menu{
+        display: flex;
+        flex-direction: row;
+    }
+    .flex-container{
+
+        display: grid;
+        grid-template-columns: 4fr 2fr 1fr;
+        gap:.4em;
+    }
+    .test{
+        text-align: left;
+        font-weight: 400;
+    }
+
+
+
+
+
+    
+    .flex-container button{
+        max-width:4em;
+        height: 50%;
+        margin-top:1.7em;
+        padding: 0;
+    }
 }
 
-.card {
-  padding: 2em;
-}
 
-.read-the-docs {
-  color: #888;
-}
+
+
+

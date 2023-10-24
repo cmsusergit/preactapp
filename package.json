@@ -1,15 +1,16 @@
 {
-  "name": "vite-preact-starter",
+  "name": "viie-preact",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 8080",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "preact": "^10.18.1"
+    "preact": "^10.18.1",
+    "routify": "^2.0.1"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.6.0",
