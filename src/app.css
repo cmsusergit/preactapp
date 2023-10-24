@@ -23,9 +23,8 @@
         flex-direction: row;
     }
     .flex-container{
-
-        display: grid;
-        grid-template-columns: 4fr 2fr 1fr;
+        display: flex;
+        flex-direction: row;
         gap:.4em;
     }
     .test{

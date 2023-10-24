@@ -1,6 +1,7 @@
 import './app.css'
 import { Component } from 'preact'
 import { List } from './component/list'
+import '@picocss/pico'
 import Header from './component/header'
 import FormBill from './component/form_t'
 export class App extends Component{

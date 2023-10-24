@@ -6,13 +6,13 @@ export default class Header extends Component{
         <>    
             <nav className="header_menu">
                 <ul>
-                    <li><strong>SHAYONA AGRI-PRODUCT</strong></li>
+                    <li><strong>SHAYONA FERTILIZER</strong></li>
                 </ul>
                 <ul>
                     
                     
-                    <li><a href="/product">Bill</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="product">Bill</a></li> 
+                    <li><a href="/">About</a></li>
                     <li><a href="#" role="button">Login</a></li>
                 </ul>
             </nav>
