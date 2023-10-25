@@ -1,9 +1,9 @@
 .header_menu{
-    background-color: beige;
     margin-bottom: 1em;
+    
     display: flex;
-    flex-direction: column;
-
+    flex-direction: column;    
+    border-bottom: 2px solid grey;
     justify-content: space-between;
     align-items: center;
     padding:1em;
