@@ -2,74 +2,59 @@ import { Component } from "preact"
 import db from "../db";
 import _ from "lodash";
 export default class FormBill extends Component{
-    state={productList:[],billDetail:{},loading:false,orderDetail:[],selectedProduct:'',selectedQuantity:0,error:''}
+    state={productList:[],billDetail:{},loading:false,selectedProduct:'',selectedQuantity:0,error:''}
     
     async onsubmit(ee){
         ee.preventDefault()
-        console.log('****',this.state.orderDetail);
-        
-        
-        
-        
+        this.setState({loading:true})
+        console.log('****',this.state.billDetail);
         let billRecord=''
         try{
+            
             billRecord = await db.collection('billdetail').create(this.state.billDetail);
             console.log(billRecord)
-            let dt=[]
-            this.state.orderDetail.map(product=>{
-                dt.push({
-                    bill_id:billRecord.id,
-                    product_id:product.product_id,
-
-                    quntity:Number.parseInt(product.quantity),
-                    description:this.state.totalBillPrice
-                })
-            })
-            console.log('----',dt);
-            await dt.map(async(ob)=>{
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-                const record = await db.collection('orderdetail').create(ob);
-                console.log(record)
-            })
-        }catch(error){
-            if(billRecord.id){
-                await db.collection('billdetail').delete(billRecord.id);
-            }
-            console.log('****',error);
+            window.location.href='/'
+        }
+        catch(error){
+                console.log('****',error);
+        }
+        finally{
+            this.setState({loading:false})
         }
     }
     updateOrderDetail(){
-        console.log(this.state.selectedProduct)
-        let temp1=[...this.state.orderDetail]
-        if(temp1.findIndex(ob=>ob.product_id==this.state.selectedProduct)==-1)
-            temp1.push({product_id:this.state.selectedProduct,quantity:this.state.selectedQuantity})
-        console.log(temp1);
-        this.setState({orderDetail:temp1})
+        if(!this.state.selectedProduct){
+            alert('Name Required')
+           return
+        }         
+        if(!this.state.selectedQuantity || this.state.selectedQuantity==0){
+            alert('Quantity Required')
+           return
+        } 
+        let temp1={...this.state.billDetail}
+        if(!temp1.productlist)
+            temp1.productlist=[]
+        if(_.findIndex(temp1.productlist,product=>product.product.id==this.state.selectedProduct)!==-1)
+            return
+        const currProduct=this.state.productList.find(ob=>ob.id==this.state.selectedProduct)        
+        temp1.productlist=[...temp1.productlist,{product:currProduct,quantity:this.state.selectedQuantity}]    
+        this.setState({billDetail:temp1})
         let totalBillPrice=0
-        temp1.map(product=>{            
-            totalBillPrice=totalBillPrice+(this.state.productList.find(ob=>ob.id==product.product_id).price*product.quantity)
+        temp1.productlist.map(product=>{            
+            totalBillPrice=totalBillPrice+(product.product.price*product.quantity)                                  
         })
         this.setState({totalBillPrice:totalBillPrice})
         this.setState({selectedProduct:'',selectedQuantity:0})
     }
     removeOrder(id){
-        let temp1=[...this.state.orderDetail]
-        _.remove(temp1,ob=>ob.product_id==id)
+        let temp1={...this.state.billDetail}
+        _.remove(temp1.productlist,ob=>ob.product.id==id)
          let totalBillPrice=0
-        temp1.map(product=>{            
-            totalBillPrice=totalBillPrice+(this.state.productList.find(ob=>ob.id==product.product_id).price*product.quantity)
+
+        temp1.productlist.map(product=>{            
+            totalBillPrice=totalBillPrice+(product.product.price*product.quantity)
         })
-        this.setState({orderDetail:temp1,totalBillPrice:totalBillPrice})
+        this.setState({billDetail:temp1,totalBillPrice:totalBillPrice})
     }
     updateBillDetail(name,value){
         let temp1={...this.state.billDetail}
@@ -110,7 +95,6 @@ export default class FormBill extends Component{
             <form onSubmit={ee=>this.onsubmit(ee)}>   
                 <article> 
                     <header>Client Information</header>       
-
                     <div>
                         <label for="cname">Full Name
                             <input value={this.state.billDetail.client_name} onChange={(ee)=>this.updateBillDetail('client_name',ee.target.value)} type="text" id="cname" name="cname" placeholder="Full Name" required/>
@@ -156,9 +140,8 @@ export default class FormBill extends Component{
                         <button onClick={()=>this.updateOrderDetail()} style={{width:'10em',padding:'0.2em'}} type="button">Add Product</button>
                     </footer>
                 </article>
-                {(this.state.orderDetail && this.state.orderDetail.length>0) && 
+                {(this.state.billDetail && this.state.billDetail.productlist && this.state.billDetail.productlist.length>0) && 
                     <div style={{marginBottom:'2em',overflow:'auto'}}>
-                        
                         <table>
                             <thead>
                                 <tr>
@@ -170,14 +153,14 @@ export default class FormBill extends Component{
                             </thead>
                             <tbody>
                             {
-                                this.state.orderDetail.map((product)=>{
+                                this.state.billDetail.productlist.map((product)=>{
                                     return(
-                                        <tr key={product.product_id}>
-                                            <td style={{textAlign:'center',padding:'0px'}}>{this.state.productList.find(ob=>ob.id==product.product_id).name} - {this.state.productList.find(ob=>ob.id==product.product_id).weight}</td>
+                                        <tr key={product.product.id}>
+                                            <td style={{textAlign:'center',padding:'0px'}}>{product.product.name} - {product.product.weight}</td>
                                             <td style={{textAlign:'center',padding:'0px'}}>{product.quantity}</td>
-                                            <td style={{textAlign:'center',padding:'0px'}}>{this.state.productList.find(ob=>ob.id==product.product_id).price*product.quantity}</td>                                            
+                                            <td style={{textAlign:'center',padding:'0px'}}>{product.product.price*product.quantity}</td>                                            
                                             <td style={{textAlign:'center',paddingTop:'1em',paddingBottom:'0px'}}>
-                                                <button onClick={()=>this.removeOrder(product.product_id)} className="secondary" style={{padding:'0.2em'}}>Remove</button>
+                                                <button onClick={()=>this.removeOrder(product.product.id)} className="secondary" style={{padding:'0.2em'}} type="button">Remove</button>
                                             </td>
                                         </tr>
                                     )
@@ -191,7 +174,7 @@ export default class FormBill extends Component{
                     </div>
                 }
                 <div>
-                    <button type="submit">SUBMIT</button>
+                    <button aria-busy={this.state.loading} type="submit">{!this.state.loading?'SUBMIT':'Please, Wait....'}</button>
                 </div>
             </form>
         </>)

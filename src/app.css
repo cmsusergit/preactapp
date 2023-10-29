@@ -8,12 +8,38 @@
 }
 .flex-container{
     display: flex;
-
     flex-direction: column;
 }
 
 .flex-btn{
     max-width: 100%;
+}
+.header_menu ul{
+    flex-direction: column;
+}
+.showbtn{
+    display: flex;
+}
+
+.hidebtn{
+    display: none;
+}
+.user-table th{
+    background-color: grey;
+    color: white;
+}
+.user-table th, .user-table td{
+    text-align: center;
+   padding: .2em;
+}
+
+
+
+
+
+.usertable-container{
+    display: grid;
+    grid-template-columns: 1fr;
 }
 @media screen and (min-width:780px){
     .header_menu{
@@ -29,19 +55,21 @@
         text-align: left;
         font-weight: 400;
     }
-
-
-
-
-
-    
     .flex-container button{
         max-width:4em;
         height: 50%;
         margin-top:1.7em;
         padding: 0;
     }
+    #openmenu{
+        display: none;
+    }
+    .header_menu ul{
+        display: flex;
+        flex-direction: row;
+    }
 }
+
 
 
 
