@@ -77,6 +77,19 @@
     padding: 0.2em;
     padding-top: 0;
 }
+.detail-container{
+    display: grid;
+    grid-template-columns:1fr 1fr;
+}
+.producttable-header{
+
+
+    display: none;
+}
+.producttable-column{
+    display: inline;
+    font-weight: bold;
+}
 .hidecolumn{
     display: none;
 }
@@ -89,14 +102,6 @@
   .svg-icon rect {
     fill: inherit;
 }
-
-
-
-
-
-
-
-
 @media screen and (min-width:780px){
     .header_menu{
         display: flex;
@@ -105,18 +110,23 @@
     .flex-container{
         display: flex;
         flex-direction: row;
+
         gap:.4em;
     }
-
-
-
-
     .test{
         text-align: left;
         font-weight: 400;
     }
+    .producttable-header{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    .producttable-column{
+        display: none;
+    }
     .flex-container button{
         max-width:4em;
+
         height: 50%;
         margin-top:1.7em;
         padding: 0;

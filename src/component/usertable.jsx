@@ -43,7 +43,8 @@ export default class UserTable extends Component{
                                             l7.397,1.585V17.332z M17.862,15.219l-7.397,2.113V4.855l7.397-1.585V15.219z"></path>
                                     </svg>
                                     </button>
-                                    <button className="secondary usertable-button">
+
+                                    <button onClick={ee=>this.props.onremove(record.id)} className="secondary usertable-button">
                                        <svg class="svg-icon" viewBox="0 0 20 20">
                                             <path fill="none" d="M7.083,8.25H5.917v7h1.167V8.25z M18.75,3h-5.834V1.25c0-0.323-0.262-0.583-0.582-0.583H7.667
                                                 c-0.322,0-0.583,0.261-0.583,0.583V3H1.25C0.928,3,0.667,3.261,0.667,3.583c0,0.323,0.261,0.583,0.583,0.583h1.167v14
@@ -70,7 +71,7 @@ export default class UserTable extends Component{
                                                 l7.397,1.585V17.332z M17.862,15.219l-7.397,2.113V4.855l7.397-1.585V15.219z"></path>
                                         </svg>
                                     </button>
-                                    <button className="secondary usertable-button">
+                                    <button onClick={ee=>this.props.onremove(record.id)} className="secondary usertable-button">
                                         <svg class="svg-icon" viewBox="0 0 20 20">
                                             <path fill="none" d="M7.083,8.25H5.917v7h1.167V8.25z M18.75,3h-5.834V1.25c0-0.323-0.262-0.583-0.582-0.583H7.667
                                                 c-0.322,0-0.583,0.261-0.583,0.583V3H1.25C0.928,3,0.667,3.261,0.667,3.583c0,0.323,0.261,0.583,0.583,0.583h1.167v14

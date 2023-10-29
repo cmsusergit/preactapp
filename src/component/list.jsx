@@ -1,9 +1,29 @@
 import { Component } from "preact";
 import db from '../db'
-
 import _ from 'lodash'
 import UserTable from './usertable'
 export default class extends Component{
+    state={record_id:0}
+    removeRecord(id){
+        this.setState({record_id:id})
+    }
+    async removeRecord1(id){
+        try{
+            this.setState({loading:true})
+
+            await db.collection('billdetail').delete(id);
+            let  dt=[...this.state.sellDetail]
+            _.remove(dt,ob=>ob.id==id)
+
+            this.setState({sellDetail:dt})
+        }catch(error){
+            console.log('****',error)
+            this.setState({error:`ERROR: ${error.message}`})
+        }
+        finally{
+            this.setState({loading:false})
+        }
+    }
     async componentDidMount(){
         try{
             this.setState({loading:true})
@@ -15,7 +35,6 @@ export default class extends Component{
             this.setState({error:`ERROR: ${error.message}`})
         }
         finally{
-
             this.setState({loading:false})
         }
     }
@@ -26,19 +45,17 @@ export default class extends Component{
             {this.state.loading?<article aria-busy="true"></article>:''}
             <p style={{color:'rgb(255,0,0)',fontSize:'140%'}}>{this.state.error??''}</p>
             {
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                this.state.sellDetail && <UserTable detail={this.state.sellDetail}></UserTable> 
+                this.state.sellDetail && <UserTable onremove={id=>this.removeRecord(id)} detail={this.state.sellDetail}></UserTable> 
             }
+            <dialog open={this.state.record_id!=0}>
+                <div>
+                    <h2>Do you really Want to Remove a record?</h2>
+                    <div style={{display:'flex',gap:'.4em'}}>
+                        <button onClick={ee=>{this.removeRecord1(this.state.record_id);this.setState({record_id:0})}} className="secondary">Remove</button>
+                        <button onClick={ee=>{this.setState({record_id:0})}}>Close</button>
+                    </div>
+                </div>
+            </dialog>  
             {/* {
                 this.state.sellDetail && 
                 <table className="user-table">
