@@ -1,4 +1,4 @@
-import { render } from 'preact'
+import { Component, render } from 'preact'
 import { App } from './app.jsx'
 import './index.css'
 import Router from 'preact-router'
@@ -7,25 +7,75 @@ import  About  from './component/about.jsx'
 import FormBill from './component/form_t.jsx'
 import BuyProduct from './pagelist/buyproduct.jsx'
 import SellProduct from './pagelist/sellproduct.jsx'
-import Inventory from './pagelist/inventory.jsx'
-
-
-
+import Product from './pagelist/inventory.jsx'
 import Login from './component/login.jsx'
-const AppMain=()=>{
-    return(<div className='container-fluid'>
-        <Header></Header>
-        <div className='container'>
-            <Router>
-                <App path='/'/>
-                <About path='/about'/>
-                <FormBill path='/bill'/>
-                <BuyProduct path='buyproduct'/>
-                <SellProduct path='sellproduct'/>
-                <Inventory path='inventory'/>
-                <Login path='/login'/>
-        </Router>
-        </div>
-    </div>)
+import db from './db.js'
+
+class AppMain extends Component{
+    async componentDidMount(){
+        try{
+            this.setState({loading:true})
+            const dt = await db.collection('profile').getFullList()
+            this.setState({profile:dt[0]})
+            this.setState({isLoggedIn:db.authStore.isValid,isopen:true})
+        }catch(error){
+            this.setState({error:`ERROR: ${error.message}`})
+        }
+        finally{
+            this.setState({loading:false})
+        }
+    }
+    render(){
+        return(
+            <div className='container-fluid'>
+                {this.state.loading && <p style={{fontSize:'1.4em',fontWeight:'bold',textAlign:'center',verticalAlign:'middle'}}>Please Wait, Loading Profile....</p>}
+                {
+                    this.state.error ? 
+                    <p style={{color:'orange',fontSize:'1.4em',justifyContent:'flex-start',alignItems:'center'}}>
+                        Error Downloading Profile <br />
+                        {this.state.error}
+                    </p>
+                :
+                <>
+                    <Header profile={this.state.profile}></Header>
+                    <div className='container'>
+                        <Router>
+                            <App path='/'/>
+                            <About profile={this.state.profile} path='/about'/>
+                            <FormBill path='/detail/:orderid?'/>
+                            <BuyProduct path='/buyproduct'/>
+                            <SellProduct path='/sellproduct'/>
+                            <Product path='/product'/>
+                            <Login path='/login'/>
+                        </Router>
+                    </div>
+              </>}
+            </div>
+        )
+    }
 }
 render(<AppMain />, document.getElementById('app'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
