@@ -23,20 +23,8 @@ export default class extends Component{
             {this.state.loading?<article aria-busy="true"></article>:''}
             <p style={{color:'rgb(255,0,0)',fontSize:'140%'}}>{this.state.error??''}</p>
             {
-
                 this.state.productList && 
                 <div>
-
-
-
-
-
-
-
-
-
-
-
                     <div className="producttable-header" style={{textAlign:'center',padding:'0.1em',borderBottom:'1px solid lightgrey'}}>
                         <div>Sr.</div>
                         <div>Product Name</div>
